@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VISHWAS AR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --teal-900:#0B1F33;--teal-700:#2563EB;--teal-500:#00C2D7;--teal-100:#E8F1FB;
+  --cyan:#00C2D7;--cyan-100:#E1F8FB;
+  --orange:#F59E0B;--orange-100:#FEF3DD;--green:#16A34A;--green-100:#E6F6EC;
+  --amber:#B4790A;--amber-100:#FCF0DA;--red:#DC2626;--red-100:#FBE6E5;
+  --ink:#172033;--sub:#64748B;--line:#E1E7EF;--card:#FFFFFF;--bg:#F4F7FA;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#0B1420;--card:#101B2B;--ink:#E9EEF6;--sub:#93A2B8;--line:#1D2A3D;--teal-100:#132236;--orange-100:#2E2410;--green-100:#0F2A1C;--amber-100:#332510;--red-100:#301617;--cyan-100:#0B2A30;}}
+:root[data-theme="dark"]{--bg:#0B1420;--card:#101B2B;--ink:#E9EEF6;--sub:#93A2B8;--line:#1D2A3D;}
+*{box-sizing:border-box;}
+html{scroll-padding-top:env(safe-area-inset-top,0px);}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Inter',-apple-system,"Segoe UI",Roboto,sans-serif;}
+.shell{max-width:1180px;margin:0 auto;padding:18px;}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--teal-900);}
+.brand .mark{width:34px;height:34px;border-radius:9px;background:var(--teal-700);color:#fff;display:flex;align-items:center;justify-content:center;font-size:17px;}
+.rolebar{display:flex;gap:6px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:4px;}
+.rolebar button{border:0;background:transparent;padding:7px 12px;border-radius:7px;font-size:12.5px;font-weight:600;color:var(--sub);cursor:pointer;}
+.rolebar button.active{background:var(--teal-700);color:#fff;}
+.phone{max-width:420px;margin:0 auto;background:var(--card);border:1px solid var(--line);border-radius:26px;overflow:hidden;box-shadow:0 20px 50px rgba(11,59,60,.15);min-height:730px;position:relative;}
+.screen{display:none;padding:20px;min-height:730px;}
+.screen.active{display:block;}
+h1,h2,h3{margin:0 0 6px;}
+p{margin:0 0 10px;color:var(--sub);line-height:1.5;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:11px;padding:13px 18px;font-weight:700;font-size:14.5px;cursor:pointer;width:100%;}
+.btn-primary{background:var(--orange);color:#fff;}
+.btn-primary:active{transform:scale(.98);}
+.btn-outline{background:transparent;border:1.5px solid var(--teal-700);color:var(--teal-700);}
+.btn-ghost{background:var(--teal-100);color:var(--teal-900);}
+.btn-sm{padding:9px 12px;font-size:12.5px;width:auto;}
+.stack{display:flex;flex-direction:column;gap:10px;}
+.row{display:flex;gap:10px;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;}
+.tag{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;}
+.tag-green{background:var(--green-100);color:var(--green);}
+.tag-amber{background:var(--amber-100);color:var(--amber);}
+.tag-red{background:var(--red-100);color:var(--red);}
+.tag-orange{background:var(--orange-100);color:var(--orange);}
+.bar{height:8px;background:var(--line);border-radius:6px;overflow:hidden;}
+.bar > div{height:100%;background:var(--teal-700);border-radius:6px;}
+input,select{width:100%;padding:12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg);color:var(--ink);font-size:14px;}
+label{font-size:12px;font-weight:700;color:var(--sub);display:block;margin:10px 0 4px;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.center{text-align:center;}
+.back{background:none;border:0;color:var(--teal-700);font-weight:700;font-size:13px;cursor:pointer;padding:6px 0;margin-bottom:6px;}
+.navbot{position:absolute;bottom:0;left:0;right:0;display:flex;border-top:1px solid var(--line);background:var(--card);padding:8px 4px calc(8px + env(safe-area-inset-bottom,0px));}
+.navbot button{flex:1;background:none;border:0;font-size:10.5px;color:var(--sub);font-weight:700;padding:5px;cursor:pointer;}
+.navbot button.on{color:var(--teal-700);}
+.scene{position:relative;height:270px;border-radius:14px;overflow:hidden;background:linear-gradient(180deg,#3B4A4D,#1C2526);margin-bottom:10px;}
+.scanline{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.04) 0 2px,transparent 2px 4px);}
+.hotspot{position:absolute;width:auto;padding:6px 10px;border-radius:20px;font-size:11px;font-weight:700;cursor:pointer;border:1.5px dashed rgba(255,255,255,.85);color:#fff;background:rgba(0,0,0,.35);backdrop-filter:blur(2px);}
+.hotspot.done{border-style:solid;border-color:var(--green);background:rgba(30,142,90,.55);}
+.armode{position:absolute;top:10px;left:10px;background:var(--teal-500);color:#012;font-size:10px;font-weight:800;padding:4px 9px;border-radius:6px;letter-spacing:.4px;}
+.scanbeam{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--teal-500),transparent);animation:beam 2.6s linear infinite;}
+@keyframes beam{0%{top:0%}100%{top:100%}}
+.hotspot{border-color:var(--teal-500);}
+.hotspot.done{border-color:var(--green);}
+.vring{display:inline-flex;width:56px;height:56px;border-radius:50%;align-items:center;justify-content:center;font-size:26px;position:relative;}
+.vring::before{content:'';position:absolute;inset:-6px;border:2px solid var(--green);border-radius:50%;animation:vpulse 1.4s ease-out 2;}
+@keyframes vpulse{0%{transform:scale(.85);opacity:1;}100%{transform:scale(1.35);opacity:0;}}
+@media (prefers-reduced-motion: reduce){.scanbeam,.vring::before{animation:none;}}
+.splashMark{position:relative;width:96px;height:96px;margin:0 auto 16px;display:flex;align-items:center;justify-content:center;}
+.shieldBox{width:76px;height:76px;border-radius:20px;background:var(--teal-700);color:#fff;font-size:36px;display:flex;align-items:center;justify-content:center;z-index:2;box-shadow:0 10px 24px rgba(15,88,89,.35);}
+.ring{position:absolute;border:1.5px solid var(--orange);border-radius:50%;opacity:0;animation:arscan 2.2s ease-out infinite;}
+.r1{width:96px;height:96px;}
+.r2{width:96px;height:96px;animation-delay:1.1s;}
+@keyframes arscan{0%{width:70px;height:70px;opacity:.9;}100%{width:130px;height:130px;opacity:0;}}
+@media (prefers-reduced-motion: reduce){.ring{animation:none;opacity:0;}}
+.sos-btn{background:var(--red);color:#fff;}
+.sos-active{border:2px solid var(--red);background:var(--red-100);}
+.instr{background:rgba(0,0,0,.55);color:#fff;padding:8px 10px;border-radius:10px;font-size:12.5px;position:absolute;bottom:8px;left:8px;right:8px;}
+.qropt{padding:12px;border:1.5px solid var(--line);border-radius:11px;margin-bottom:8px;cursor:pointer;font-size:13.5px;}
+.qropt.sel{border-color:var(--teal-700);background:var(--teal-100);}
+.qropt.right{border-color:var(--green);background:var(--green-100);}
+.qropt.wrong{border-color:var(--red);background:var(--red-100);}
+.cert{border:2px solid var(--teal-700);border-radius:16px;padding:18px;background:linear-gradient(180deg,var(--teal-100),var(--card) 40%);text-align:center;}
+.qr{width:110px;height:110px;margin:10px auto;border-radius:8px;background:#fff;border:1px solid var(--line);}
+.badge{width:52px;height:52px;border-radius:50%;background:var(--teal-100);color:var(--teal-700);display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 6px;}
+table{width:100%;border-collapse:collapse;font-size:13px;}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line);}
+th{color:var(--sub);font-size:11px;text-transform:uppercase;letter-spacing:.4px;}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;}
+.kpi .num{font-size:26px;font-weight:800;color:var(--teal-900);}
+.kpi .lbl{font-size:12px;color:var(--sub);font-weight:600;}
+.dgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:16px;}
+.admwrap{display:none;}
+.admwrap.active{display:block;}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;}
+.tabs button{border:1px solid var(--line);background:var(--card);padding:8px 13px;border-radius:9px;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--sub);}
+.tabs button.active{background:var(--teal-700);color:#fff;border-color:var(--teal-700);}
+.deptbar{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.deptbar .name{width:110px;font-size:13px;font-weight:600;}
+.deptbar .bar{flex:1;}
+.filters{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;}
+.filters select{width:auto;}
+@media(max-width:700px){.dgrid{grid-template-columns:repeat(2,1fr);}.grid4{grid-template-columns:repeat(2,1fr);}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="topbar">
+    <div class="brand"><span class="mark">🛡️</span>VISHWAS AR — <span id="modeLbl" style="color:var(--sub);font-weight:600;font-size:14px;">Worker App (Android prototype)</span></div>
+    <div class="rolebar">
+      <button class="active" onclick="setView('phone')" id="tabPhone">Worker App</button>
+      <button onclick="setView('admin')" id="tabAdmin">Admin / Employer Web</button>
+    </div>
+  </div>
+
+  <!-- ===== PHONE (WORKER) ===== -->
+  <div id="phoneWrap">
+  <div class="phone">
+
+    <div class="screen active" id="s-splash">
+      <div class="center" style="padding-top:90px;">
+        <div class="splashMark">
+          <div class="ring r1"></div><div class="ring r2"></div>
+          <div class="shieldBox">🛡️</div>
+        </div>
+        <h1 style="letter-spacing:.5px;">VISHWAS<span style="color:var(--orange);">AR</span></h1>
+        <p>Learn Safety. Practice Safely. Stay Safe.</p>
+        <div class="stack" style="margin:28px 0;text-align:left;">
+          <div class="card">📷 AR-based hazard training</div>
+          <div class="card">📴 Works fully offline</div>
+          <div class="card">📜 Verifiable digital certificates</div>
+          <div class="card">🌐 Hindi &amp; Santali support</div>
+        </div>
+        <button class="btn btn-primary" onclick="go('s-lang')">Get Started</button>
+      </div>
+    </div>
+
+    <div class="screen" id="s-lang">
+      <h2>Choose your language</h2>
+      <p>भाषा चुनें · ᱯᱟᱹᱨᱥᱤ ᱛᱮᱛᱟᱜ ᱢᱮ</p>
+      <div class="stack">
+        <button class="btn btn-outline" onclick="setLang('en')">English</button>
+        <button class="btn btn-outline" onclick="setLang('hi')">हिन्दी</button>
+        <button class="btn btn-outline" onclick="setLang('sat')">ᱥᱟᱱᱛᱟᱲᱤ (Santali)</button>
+      </div>
+    </div>
+
+    <div class="screen" id="s-login">
+      <h2 data-t="loginTitle">Worker Login</h2>
+      <p data-t="loginSub">Use a demo account to explore VISHWAS AR.</p>
+      <label>Full Name</label>
+      <input id="loginName" value="Rahul Kumar">
+      <label>Employee / Worker ID</label>
+      <input id="loginId" value="WRK-10245">
+      <label>Password / PIN</label>
+      <input id="loginPw" type="password" value="demo123">
+      <label>Organization</label>
+      <input id="loginOrg" value="ABC Industries">
+      <div style="margin-top:16px" class="stack">
+        <button class="btn btn-primary" onclick="doLogin()" data-t="signIn">Sign In</button>
+        <button class="btn btn-ghost" onclick="go('s-lang')">← Back</button>
+      </div>
+    </div>
+
+    <div class="screen" id="s-home">
+      <div class="row" style="justify-content:space-between;align-items:center;">
+        <h2 style="margin:0;" id="greetLine">Good Morning, <span id="wName">Rahul</span> 👋</h2>
+        <span style="font-size:20px;cursor:pointer;" onclick="go('s-emergency')" title="Emergency Assistance">🚨</span>
+      </div>
+      <p style="margin:0 0 4px;color:var(--teal-700);font-weight:600;font-size:12.5px;">Stay safe. Stay prepared.</p>
+      <p style="margin:0 0 10px;font-size:12px;color:var(--sub);" id="homeStatusLine">📍 Bengaluru Manufacturing Unit &nbsp;·&nbsp; <span style="color:var(--green);font-weight:700;">✓ Verified Worker</span> &nbsp;·&nbsp; <span style="color:var(--green);">● Online</span></p>
+      <div id="aiInsight"></div>
+      <p id="syncLine">🟠 Offline content ready · Last sync: Today, 7:30 PM</p>
+      <div id="aiRecommend"></div>
+      <div class="grid2">
+        <div class="card"><div class="tag tag-green">Progress</div><h3 style="margin-top:6px;">65%</h3><p style="margin:0;">Overall training</p></div>
+        <div class="card"><div class="tag tag-orange">Safety Score</div><h3 style="margin-top:6px;">86%</h3><p style="margin:0;">Assessment avg.</p></div>
+        <div class="card"><div class="tag tag-green">Certificates</div><h3 style="margin-top:6px;" id="certCount">1</h3><p style="margin:0;">Valid</p></div>
+        <div class="card"><div class="tag tag-amber">Offline</div><h3 style="margin-top:6px;">2 modules</h3><p style="margin:0;">Downloaded</p></div>
+      </div>
+      <div class="card" style="margin-top:12px;background:var(--teal-100);border-color:var(--teal-700);">
+        <h3 style="color:var(--teal-900);">Continue Training</h3>
+        <p>🔥 Fire Emergency Response — simulation ready</p>
+        <button class="btn btn-primary" onclick="go('s-modules')">Start Safety Training →</button>
+      </div>
+      <div class="card" style="margin-top:12px;">
+        <b>💡 Daily Safety Tip</b>
+        <p style="margin-top:6px;">Know the location of your nearest emergency exit before you start work.</p>
+      </div>
+      <div class="navbot">
+        <button class="on" onclick="go('s-home')">🏠<br>Home</button>
+        <button onclick="go('s-modules')">🎓<br>Training</button>
+        <button onclick="go('s-progress')">📊<br>Progress</button>
+        <button onclick="go('s-certificate')">📜<br>Certificates</button>
+        <button onclick="go('s-profile')">👤<br>Profile</button>
+      </div>
+    </div>
+
+    <div class="screen" id="s-modules">
+      <button class="back" onclick="go('s-home')">← Back</button>
+      <h2>Training Modules</h2>
+      <div class="stack">
+        <div class="card">
+          <div class="row" style="justify-content:space-between;"><b>🔥 Fire Emergency Response</b><span class="tag tag-orange">Active</span></div>
+          <p>Identify hazards, raise alarm, evacuate safely.</p>
+          <button class="btn btn-primary" onclick="startModule('fire')">Start AR Training</button>
+        </div>
+        <div class="card">
+          <div class="row" style="justify-content:space-between;"><b>☣ Gas Leak Response</b><span class="tag tag-orange">Active</span></div>
+          <p>Detect leaks, avoid ignition sources, evacuate.</p>
+          <button class="btn btn-primary" onclick="startModule('gas')">Start AR Training</button>
+        </div>
+        <div class="card" style="opacity:.6;">
+          <div class="row" style="justify-content:space-between;"><b>🚪 Confined Space Safety</b><span class="tag tag-amber">Coming Soon</span></div>
+          <p>Gas testing, permits, PPE, ventilation, rescue.</p>
+        </div>
+        <div class="card" style="opacity:.6;">
+          <div class="row" style="justify-content:space-between;"><b>⚙️ Machinery Hazard Safety</b><span class="tag tag-amber">Locked</span></div>
+          <p>Lockout/tagout, e-stop, safe operating distance.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="s-ppe">
+      <button class="back" onclick="go('s-modules')">← Back</button>
+      <h2>Safety Readiness Check</h2>
+      <p>Confirm your PPE before entering AR simulation.</p>
+      <div class="stack" id="ppeList"></div>
+      <button class="btn btn-primary" style="margin-top:14px;" onclick="go('s-ar')" id="ppeBtn" disabled>Ready for Training</button>
+    </div>
+
+    <div class="screen" id="s-ar">
+      <button class="back" onclick="go('s-modules')">← Exit Simulation</button>
+      <div class="scene" id="scene">
+        <div class="scanline"></div>
+        <div class="armode">AR SAFETY MODE</div>
+        <div id="hotspots"></div>
+        <div class="instr" id="arInstr">Point your phone around the environment and tap the highlighted object.</div>
+      </div>
+      <div class="row" style="justify-content:space-between;">
+        <span id="arTimer" style="font-weight:700;">⏱ 00:00</span>
+        <span id="arStepCount" style="color:var(--sub);font-size:13px;"></span>
+      </div>
+      <div class="bar" style="margin-top:8px;"><div id="arBar" style="width:0%"></div></div>
+    </div>
+
+    <div class="screen" id="s-assess">
+      <button class="back" onclick="go('s-modules')">← Exit</button>
+      <p id="qProg">Question 1 of 5</p>
+      <div class="bar"><div id="qBar" style="width:20%"></div></div>
+      <h3 id="qText" style="margin-top:14px;"></h3>
+      <div id="qOpts"></div>
+      <div id="qFeedback" style="font-size:13px;font-weight:700;margin-top:6px;"></div>
+      <button class="btn btn-primary" style="margin-top:12px;" id="qNext" onclick="nextQ()" disabled>Next</button>
+    </div>
+
+    <div class="screen" id="s-result">
+      <div class="center">
+        <div class="badge" id="resIcon">🏅</div>
+        <h2 id="resTitle">Training Passed</h2>
+        <h1 id="resScore" style="color:var(--teal-700);">80%</h1>
+        <p id="resDetail">Correct: 4/5 · Incorrect: 1/5</p>
+        <div class="stack">
+          <button class="btn btn-primary" onclick="go('s-certificate')" id="resCertBtn">View Certificate</button>
+          <button class="btn btn-ghost" onclick="reviewAnswers()">Review Answers</button>
+          <button class="btn btn-outline" onclick="retryAssessment()" id="resRetryBtn">Retry Assessment</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="s-certificate">
+      <button class="back" onclick="go('s-home')">← Back</button>
+      <h2>My Certificates</h2>
+      <div id="certList" class="stack"></div>
+    </div>
+
+    <div class="screen" id="s-progress">
+      <button class="back" onclick="go('s-home')">← Back</button>
+      <h2>My Training</h2>
+      <div class="stack" id="progList"></div>
+      <div class="card" style="margin-top:12px;">
+        <b>🏆 Gamification</b>
+        <div class="row" style="margin-top:8px;flex-wrap:wrap;gap:8px;">
+          <span class="tag tag-orange">⭐ 3-day Streak</span>
+          <span class="tag tag-green">🎖 First Training</span>
+          <span class="tag tag-amber">🎖 Emergency Ready</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="screen" id="s-emergency">
+      <button class="back" onclick="go('s-home')">← Back</button>
+      <h2>🛡️ VISHWAS AR<br>🚨 Emergency Assistance</h2>
+      <p>Available offline. Tap a category for immediate guidance, or send an SOS.</p>
+      <div id="sosPanel">
+        <div class="card sos-btn center" style="cursor:pointer;" onclick="renderSOS('confirm')">
+          <b style="font-size:15px;">🚨 SEND SOS</b>
+          <p style="color:#fde;margin:4px 0 0;">Tap, choose emergency type, then confirm to alert the Safety Department.</p>
+        </div>
+      </div>
+      <div class="stack">
+        <div class="card"><b>🔥 Fire</b><p style="margin:4px 0 0;">Raise alarm, use nearest extinguisher on small fires only, evacuate via marked exits.</p></div>
+        <div class="card"><b>☣ Gas Leak</b><p style="margin:4px 0 0;">Do not switch on/off electrical equipment. Move upwind and evacuate.</p></div>
+        <div class="card"><b>⚡ Electrical</b><p style="margin:4px 0 0;">Cut power at source if safe. Never use water on electrical fires.</p></div>
+        <div class="card"><b>🩹 First Aid</b><p style="margin:4px 0 0;">Call site medic. Do not move a seriously injured person unless in danger.</p></div>
+        <div class="card"><b>📞 Emergency Contacts</b><p style="margin:4px 0 0;">Site Safety Officer: 1800-XXX · Ambulance: 108 · Fire: 101</p></div>
+      </div>
+    </div>
+
+    <div class="screen" id="s-profile">
+      <button class="back" onclick="go('s-home')">← Back</button>
+      <h2>Profile</h2>
+      <div class="card center" style="margin-bottom:12px;">
+        <div class="badge" style="width:64px;height:64px;font-size:28px;">👤</div>
+        <h3 id="profName" style="margin:4px 0 2px;">Rahul Kumar</h3>
+        <p style="margin:0;font-size:12.5px;" id="profId">WRK-10245</p>
+        <span class="tag tag-green" style="margin-top:6px;display:inline-block;">✓ Verified Worker</span>
+      </div>
+      <div class="stack">
+        <button class="btn btn-ghost" onclick="go('s-progress')">🎓 My Training</button>
+        <button class="btn btn-ghost" onclick="go('s-certificate')">📜 My Certificates</button>
+        <button class="btn btn-ghost" onclick="go('s-emergency')">🚨 Emergency Contacts</button>
+        <button class="btn btn-ghost" onclick="go('s-editprofile')">✏️ Edit Profile</button>
+        <button class="btn btn-outline" onclick="go('s-settings')">⚙️ Settings</button>
+      </div>
+    </div>
+
+    <div class="screen" id="s-editprofile">
+      <button class="back" onclick="go('s-profile')">← Back</button>
+      <h2>Edit Profile</h2>
+      <p>Employee ID is protected and cannot be changed here.</p>
+      <label>Full Name</label><input id="epName">
+      <label>Mobile</label><input id="epMobile">
+      <label>Email</label><input id="epEmail">
+      <label>Department</label><input id="epDept">
+      <label>Designation</label><input id="epDesig">
+      <button class="btn btn-primary" style="margin-top:16px;" onclick="saveProfile()">Save Changes</button>
+      <p id="epNote" style="font-size:12px;margin-top:8px;"></p>
+    </div>
+
+    <div class="screen" id="s-settings">
+      <button class="back" onclick="go('s-profile')">← Back</button>
+      <h2>Settings</h2>
+      <div class="stack">
+        <div class="card">
+          <b>👤 Account</b>
+          <p style="margin:6px 0 0;" id="setAcct">Rahul Kumar · WRK-10245</p>
+          <button class="btn btn-sm btn-outline" style="margin-top:8px;" onclick="go('s-editprofile')">Edit Profile</button>
+        </div>
+        <div class="card">
+          <b>🌐 Language</b>
+          <div class="stack" style="margin-top:8px;">
+            <label style="display:flex;align-items:center;gap:8px;font-weight:400;margin:0;"><input type="radio" name="setlang" onclick="setLangSettings('en')" id="rl-en"> English</label>
+            <label style="display:flex;align-items:center;gap:8px;font-weight:400;margin:0;"><input type="radio" name="setlang" onclick="setLangSettings('hi')" id="rl-hi"> हिन्दी</label>
+            <label style="display:flex;align-items:center;gap:8px;font-weight:400;margin:0;"><input type="radio" name="setlang" onclick="setLangSettings('sat')" id="rl-sat"> ᱥᱟᱱᱛᱟᱲᱤ (Santali)</label>
+          </div>
+        </div>
+        <div class="card">
+          <b>📍 Location / Worksite</b>
+          <p style="margin:6px 0;" id="setSite">Bengaluru Manufacturing Unit</p>
+          <select id="siteSelect" onchange="changeSite()">
+            <option>Bengaluru Manufacturing Unit</option>
+            <option>Mysuru Plant</option>
+            <option>Hyderabad Facility</option>
+            <option>Mumbai Warehouse</option>
+          </select>
+        </div>
+        <div class="card">
+          <b>🔔 Notifications</b>
+          <label style="display:flex;align-items:center;gap:8px;font-weight:400;margin-top:8px;"><input type="checkbox" id="notifToggle" checked onchange="toggleNotif()"> Enabled</label>
+        </div>
+        <div class="card">
+          <b>☁ Sync / Offline Data</b>
+          <p style="margin:6px 0 0;" id="setSync">Last synced: Today, 7:30 PM</p>
+        </div>
+        <div class="card"><b>🔒 Privacy</b><p style="margin:6px 0 0;">Your training data and location are only shared with your organization's Safety Department, and only during an active SOS.</p></div>
+        <div class="card"><b>ℹ️ About VISHWAS AR</b><p style="margin:6px 0 0;">VISHWAS AR v1.0 — Immersive Safety Training &amp; Digital Compliance Platform.</p></div>
+        <div class="card" id="logoutCard">
+          <button class="btn" style="background:var(--red);color:#fff;" onclick="confirmLogout()">🚪 Logout</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  </div>
+
+  <!-- ===== ADMIN / EMPLOYER WEB ===== -->
+  <div class="admwrap" id="adminWrap">
+    <div class="tabs">
+      <button class="active" onclick="selectAdminTab('t-dash')">Dashboard</button>
+      <button onclick="selectAdminTab('t-workers')">Workers</button>
+      <button onclick="selectAdminTab('t-compliance')">Compliance</button>
+      <button onclick="selectAdminTab('t-certs')">Certificates</button>
+      <button onclick="selectAdminTab('t-verify')">Verify Certificate (Employer)</button>
+      <button onclick="selectAdminTab('t-sos')">🚨 SOS Alerts</button>
+      <button onclick="selectAdminTab('t-audit')">Audit Log</button>
+    </div>
+
+    <div id="t-dash" class="tabpane">
+      <h2>🛡️ VISHWAS AR<br><span style="font-size:15px;color:var(--sub);font-weight:600;">Safety &amp; Compliance Dashboard</span></h2>
+      <div class="dgrid">
+        <div class="kpi"><div class="num">1,248</div><div class="lbl">Total Workers</div></div>
+        <div class="kpi"><div class="num">986</div><div class="lbl">Trained</div></div>
+        <div class="kpi"><div class="num">184</div><div class="lbl">Pending Training</div></div>
+        <div class="kpi"><div class="num">78</div><div class="lbl">Certs Expiring</div></div>
+        <div class="kpi" id="kpiSos" style="border-color:var(--red);"><div class="num" style="color:var(--red);">0</div><div class="lbl">Active SOS</div></div>
+      </div>
+      <div class="card" style="border-color:var(--teal-500);margin-bottom:16px;">
+        <b style="color:var(--teal-700);">✨ AI COMPLIANCE INSIGHT</b>
+        <p style="margin:6px 0 0;">184 workers have pending training and 78 certificates expire within 30 days — Production and Warehouse departments need priority follow-up.</p>
+      </div>
+      <div class="grid2">
+        <div class="card"><b>Monthly Training Activity</b>
+          <div class="stack" style="margin-top:10px;">
+            <div class="deptbar"><span class="name">Jun</span><div class="bar"><div style="width:40%"></div></div></div>
+            <div class="deptbar"><span class="name">Jul</span><div class="bar"><div style="width:58%"></div></div></div>
+            <div class="deptbar"><span class="name">Aug</span><div class="bar"><div style="width:71%"></div></div></div>
+            <div class="deptbar"><span class="name">Sep</span><div class="bar"><div style="width:82%"></div></div></div>
+          </div>
+        </div>
+        <div class="card"><b>Certificate Status</b>
+          <div class="stack" style="margin-top:10px;">
+            <div class="row" style="justify-content:space-between;"><span>Valid</span><b style="color:var(--green);">742</b></div>
+            <div class="row" style="justify-content:space-between;"><span>Expiring Soon</span><b style="color:var(--amber);">78</b></div>
+            <div class="row" style="justify-content:space-between;"><span>Expired</span><b style="color:var(--red);">31</b></div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="margin-top:12px;">⚠ 12 certificates expire within 30 days. <button class="btn btn-sm btn-outline" onclick="exportReport()">Export Report</button></div>
+    </div>
+
+    <div id="t-workers" class="tabpane" style="display:none;">
+      <h2>Worker Management</h2>
+      <div class="filters">
+        <select><option>All Departments</option><option>Production</option><option>Maintenance</option><option>Operations</option><option>Warehouse</option></select>
+        <select><option>All Status</option><option>Compliant</option><option>Pending</option><option>Expiring</option></select>
+        <button class="btn btn-sm btn-outline" onclick="openAssign()">+ Assign Training</button>
+      </div>
+      <table><thead><tr><th>Worker ID</th><th>Name</th><th>Department</th><th>Training</th><th>Certificates</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td>W-1042</td><td>Rahul Kumar</td><td>Production</td><td>2/4 complete</td><td>1 valid</td><td><span class="tag tag-green">✓ Compliant</span></td></tr>
+        <tr><td>W-1057</td><td>Amit Das</td><td>Maintenance</td><td>0/4 complete</td><td>0</td><td><span class="tag tag-amber">⚠ Training Pending</span></td></tr>
+        <tr><td>W-1063</td><td>Sita Murmu</td><td>Operations</td><td>3/4 complete</td><td>1 expiring</td><td><span class="tag tag-amber">⚠ Cert Expiring</span></td></tr>
+        <tr><td>W-1078</td><td>Priya Singh</td><td>Warehouse</td><td>4/4 complete</td><td>2 valid</td><td><span class="tag tag-green">✓ Compliant</span></td></tr>
+        <tr><td>W-1081</td><td>Manoj Toppo</td><td>Production</td><td>1/4 complete</td><td>0</td><td><span class="tag tag-red">✕ Non-Compliant</span></td></tr>
+      </tbody></table>
+    </div>
+
+    <div id="t-compliance" class="tabpane" style="display:none;">
+      <h2>Compliance Monitoring</h2>
+      <div class="card"><b>Overall Compliance</b><h1 style="color:var(--teal-700);margin:4px 0;">82%</h1></div>
+      <div class="card" style="margin-top:12px;">
+        <div class="deptbar"><span class="name">Production</span><div class="bar"><div style="width:91%"></div></div><b>91%</b></div>
+        <div class="deptbar"><span class="name">Maintenance</span><div class="bar"><div style="width:84%"></div></div><b>84%</b></div>
+        <div class="deptbar"><span class="name">Operations</span><div class="bar"><div style="width:76%"></div></div><b>76%</b></div>
+        <div class="deptbar"><span class="name">Warehouse</span><div class="bar"><div style="width:88%"></div></div><b>88%</b></div>
+      </div>
+      <div class="card" style="margin-top:12px;"><b>Requires Immediate Action</b>
+        <p style="margin-top:6px;">Amit Das (Maintenance) — no training started · Manoj Toppo (Production) — 1/4 modules only</p>
+      </div>
+    </div>
+
+    <div id="t-certs" class="tabpane" style="display:none;">
+      <h2>Certificate Management</h2>
+      <input placeholder="Search by Certificate ID or Worker Name" style="margin-bottom:12px;">
+      <table><thead><tr><th>Certificate ID</th><th>Worker</th><th>Module</th><th>Score</th><th>Expiry</th><th>Status</th></tr></thead>
+      <tbody id="certAdminTable"></tbody></table>
+    </div>
+
+    <div id="t-verify" class="tabpane" style="display:none;">
+      <h2>🛡️ VISHWAS AR — Certificate Verification</h2>
+      <p>Employer interface — scan or enter a Certificate ID to instantly confirm training status.</p>
+      <div class="row">
+        <input id="verifyInput" placeholder="Enter Certificate ID (e.g. SAR-2026-00124)">
+        <button class="btn btn-primary btn-sm" onclick="verifyCert()">Verify</button>
+      </div>
+      <div class="row" style="margin:8px 0 16px;flex-wrap:wrap;">
+        <button class="btn btn-sm btn-ghost" onclick="verifyCert('SAR-2026-00124')">Try: Valid cert</button>
+        <button class="btn btn-sm btn-ghost" onclick="verifyCert('SAR-2025-00019')">Try: Expired cert</button>
+        <button class="btn btn-sm btn-ghost" onclick="verifyCert('SAR-0000-00000')">Try: Unknown ID</button>
+      </div>
+      <div id="verifyResult"></div>
+    </div>
+
+    <div id="t-sos" class="tabpane" style="display:none;">
+      <h2>🚨 SOS Alerts &amp; Incidents</h2>
+      <p>Live emergency alerts triggered by workers, with location sharing active while ACTIVE.</p>
+      <div class="stack" id="sosAdminList"></div>
+    </div>
+
+    <div id="t-audit" class="tabpane" style="display:none;">
+      <h2>Audit Log</h2>
+      <div class="stack" id="auditList"></div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ---------- worker profile (persisted, reused everywhere for consistency) ----------
+const S = JSON.parse(localStorage.getItem('sar_state')||'null') || {
+  lang:'en',
+  profile:{name:'Rahul Kumar', id:'WRK-10245', mobile:'98765 43210', email:'rahul.kumar@demo.com', org:'ABC Industries', dept:'Production', designation:'Machine Operator', site:'Bengaluru Manufacturing Unit', verified:true, lastSync:'Today, 7:30 PM', notif:true},
+  certs:[
+    {id:'SAR-2026-00124',worker:'Rahul Kumar',module:'Fire Emergency Response',score:85,completed:'28 Sep 2026',expiry:'28 Sep 2027',status:'VALID',org:'ABC Industries'},
+    {id:'SAR-2025-00019',worker:'Sita Murmu',module:'Gas Leak Response',score:74,completed:'12 Aug 2025',expiry:'12 Aug 2026',status:'EXPIRED',org:'ABC Industries'}
+  ],
+  audit:[
+    '28 Sep 2026 — Rahul Kumar completed Fire Emergency Response',
+    '28 Sep 2026 — Certificate SAR-2026-00124 issued',
+    '27 Sep 2026 — Employer verified certificate SAR-2026-00124',
+    '20 Sep 2026 — Amit Das account created'
+  ],
+  progress:{fire:100,gas:70,confined:0,machinery:0},
+  sos:[]
+};
+function save(){localStorage.setItem('sar_state',JSON.stringify(S));}
+if(!S.profile){ S.profile={name:'Rahul Kumar', id:'WRK-10245', mobile:'98765 43210', email:'rahul.kumar@demo.com', org:'ABC Industries', dept:'Production', designation:'Machine Operator', site:'Bengaluru Manufacturing Unit', verified:true, lastSync:'Today, 7:30 PM', notif:true}; save(); }
+if(!S.sos) S.sos=[];
+const WORKER = S.profile;
+
+const T = {
+  en:{loginTitle:'Worker Login',loginSub:'Use a demo account to explore VISHWAS AR.',signIn:'Sign In',start:'Start Safety Training'},
+  hi:{loginTitle:'कर्मचारी लॉगिन',loginSub:'VISHWAS AR जानने के लिए डेमो खाता उपयोग करें।',signIn:'साइन इन करें',start:'प्रशिक्षण शुरू करें'},
+  sat:{loginTitle:'ᱢᱩᱞᱩᱜ ᱠᱚᱨᱟᱳ ᱞᱚᱜᱤᱱ',loginSub:'VISHWAS AR ᱧᱮᱞ ᱞᱟᱹᱜᱤᱫ ᱰᱮᱢᱳ ᱠᱷᱟᱛᱟ ᱵᱮᱵᱷᱟᱨ ᱢᱮ ᱾',signIn:'ᱛᱚᱵᱮ ᱵᱚᱲᱟᱭ ᱢᱮ',start:'ᱥᱮᱴᱟᱨ ᱡᱚᱛᱚ ᱮᱢ'}
+};
+function setLang(l){S.lang=l;save();applyLang();go('s-login');}
+function setLangSettings(l){S.lang=l;save();applyLang();}
+function applyLang(){
+  document.querySelectorAll('[data-t]').forEach(el=>{
+    const k=el.getAttribute('data-t'); if(T[S.lang]&&T[S.lang][k]) el.textContent=T[S.lang][k];
+  });
+}
+
+// ---------- nav ----------
+function go(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');}
+function setView(v){
+  document.getElementById('phoneWrap').style.display = v==='phone' ? 'block':'none';
+  document.getElementById('adminWrap').classList.toggle('active', v==='admin');
+  document.getElementById('tabPhone').classList.toggle('active', v==='phone');
+  document.getElementById('tabAdmin').classList.toggle('active', v==='admin');
+  document.getElementById('modeLbl').textContent = v==='phone' ? 'Worker App (Android prototype)' : 'Compliance Dashboard (Web)';
+  if(v==='admin') renderAdmin();
+}
+function doLogin(){
+  const n=document.getElementById('loginName').value.trim();
+  const i=document.getElementById('loginId').value.trim();
+  const o=document.getElementById('loginOrg').value.trim();
+  if(n) WORKER.name=n;
+  if(i) WORKER.id=i;
+  if(o) WORKER.org=o;
+  save();
+  go('s-home');applyLang();renderProgress();renderCerts();renderAI();updateGreeting();renderProfile();
+}
+function getGreeting(){
+  const h=new Date().getHours();
+  if(h<12) return 'Good Morning';
+  if(h<17) return 'Good Afternoon';
+  return 'Good Evening';
+}
+function updateGreeting(){
+  document.getElementById('greetLine').innerHTML = `${getGreeting()}, <span id="wName">${WORKER.name.split(' ')[0]}</span> 👋`;
+  document.getElementById('homeStatusLine').innerHTML = `📍 ${WORKER.site} &nbsp;·&nbsp; <span style="color:var(--green);font-weight:700;">✓ Verified Worker</span> &nbsp;·&nbsp; <span style="color:var(--green);">● Online</span>`;
+  document.getElementById('syncLine').textContent = `🟠 Offline content ready · Last sync: ${WORKER.lastSync}`;
+}
+function renderProfile(){
+  document.getElementById('profName').textContent=WORKER.name;
+  document.getElementById('profId').textContent=`${WORKER.id} · ${WORKER.designation}, ${WORKER.dept}`;
+  document.getElementById('setAcct').textContent=`${WORKER.name} · ${WORKER.id}`;
+  document.getElementById('setSite').textContent=WORKER.site;
+  document.getElementById('siteSelect').value=WORKER.site;
+  document.getElementById('setSync').textContent=`Last synced: ${WORKER.lastSync}`;
+  document.getElementById('notifToggle').checked=WORKER.notif;
+  ['en','hi','sat'].forEach(l=>document.getElementById('rl-'+l).checked = S.lang===l);
+  document.getElementById('epName').value=WORKER.name;
+  document.getElementById('epMobile').value=WORKER.mobile;
+  document.getElementById('epEmail').value=WORKER.email;
+  document.getElementById('epDept').value=WORKER.dept;
+  document.getElementById('epDesig').value=WORKER.designation;
+}
+function saveProfile(){
+  WORKER.name=document.getElementById('epName').value.trim()||WORKER.name;
+  WORKER.mobile=document.getElementById('epMobile').value.trim();
+  WORKER.email=document.getElementById('epEmail').value.trim();
+  WORKER.dept=document.getElementById('epDept').value.trim();
+  WORKER.designation=document.getElementById('epDesig').value.trim();
+  save(); updateGreeting(); renderProfile();
+  S.audit.unshift(`28 Sep 2026 — ${WORKER.name} updated profile information`); save();
+  document.getElementById('epNote').textContent='✓ Changes saved locally. Will sync when you\'re online.';
+  document.getElementById('epNote').style.color='var(--green)';
+}
+function changeSite(){
+  WORKER.site=document.getElementById('siteSelect').value;
+  save(); updateGreeting(); renderProfile();
+  S.audit.unshift(`28 Sep 2026 — ${WORKER.name} changed worksite to ${WORKER.site}`); save();
+  alert('Worksite updated. Changes saved locally — will sync when online.');
+}
+function toggleNotif(){ WORKER.notif=document.getElementById('notifToggle').checked; save(); }
+function confirmLogout(){
+  document.getElementById('logoutCard').innerHTML=`<b>Are you sure you want to log out?</b>
+    <div class="row" style="margin-top:10px;"><button class="btn btn-ghost" onclick="cancelLogout()">Cancel</button>
+    <button class="btn" style="background:var(--red);color:#fff;" onclick="doLogout()">Log Out</button></div>`;
+}
+function cancelLogout(){ document.getElementById('logoutCard').innerHTML=`<button class="btn" style="background:var(--red);color:#fff;" onclick="confirmLogout()">🚪 Logout</button>`; }
+function doLogout(){ go('s-login'); cancelLogout(); }
+
+// ---------- PPE check ----------
+const ppeItems=['Helmet','Safety Shoes','Gloves','Safety Vest','Eye Protection'];
+function renderPPE(){
+  const el=document.getElementById('ppeList'); el.innerHTML='';
+  ppeItems.forEach((it,i)=>{
+    const d=document.createElement('label');
+    d.className='card'; d.style.display='flex'; d.style.alignItems='center'; d.style.gap='10px'; d.style.cursor='pointer';
+    d.innerHTML=`<input type="checkbox" style="width:18px;height:18px;" onchange="checkPPE()"> ✓ ${it}`;
+    el.appendChild(d);
+  });
+}
+function checkPPE(){
+  const boxes=document.querySelectorAll('#ppeList input');
+  const all=[...boxes].every(b=>b.checked);
+  document.getElementById('ppeBtn').disabled=!all;
+}
+
+// ---------- module data ----------
+const MODULES = {
+  fire:{
+    name:'Fire Emergency Response',
+    spots:[
+      {x:'12%',y:'55%',label:'🔥 Fire Hazard',msg:'Hazard Detected — keep distance and raise alarm.'},
+      {x:'62%',y:'62%',label:'🧯 Extinguisher',msg:'Extinguisher located. Select if fire is small and safe to fight.'},
+      {x:'78%',y:'20%',label:'🚪 Emergency Exit',msg:'Emergency Exit identified. Evacuation route confirmed.'},
+      {x:'35%',y:'18%',label:'🔔 Alarm Button',msg:'Alarm raised. Nearby workers alerted.'},
+      {x:'50%',y:'82%',label:'📍 Assembly Point',msg:'Assembly point reached. Headcount can begin.'}
+    ],
+    questions:[
+      {q:'What should you do first after identifying a workplace fire?',opts:['Continue working','Raise the alarm','Take a photograph','Ignore it'],a:1},
+      {q:'True or False: You should use a lift/elevator during a fire evacuation.',opts:['True','False'],a:1},
+      {q:'Which extinguisher type is used on electrical fires?',opts:['Water','CO₂','Foam','Sand only'],a:1},
+      {q:'Where should you go after evacuating the building?',opts:['Nearest exit','Assembly point','Back inside','Parking lot randomly'],a:1},
+      {q:'A colleague is trapped and the fire is spreading fast. What is correct?',opts:['Attempt rescue alone','Alert emergency responders immediately and follow trained procedure','Wait and watch','Re-enter without protection'],a:1}
+    ]
+  },
+  gas:{
+    name:'Gas Leak Response',
+    spots:[
+      {x:'20%',y:'50%',label:'☣ Gas Leak Source',msg:'Leak identified. Do not use ignition sources nearby.'},
+      {x:'55%',y:'25%',label:'📟 Gas Detector',msg:'Detector confirms unsafe concentration.'},
+      {x:'70%',y:'55%',label:'🔧 Emergency Shut-off',msg:'Shut-off valve located — only trained personnel operate it.'},
+      {x:'40%',y:'75%',label:'🚪 Exit Route',msg:'Correct evacuation route highlighted.'},
+      {x:'80%',y:'80%',label:'📍 Assembly Point',msg:'Good decision. You maintained a safe distance.'}
+    ],
+    questions:[
+      {q:'You suspect a gas leak. What should you avoid?',opts:['Operating electrical switches nearby','Raising the alarm','Evacuating calmly','Reporting to supervisor'],a:0},
+      {q:'True or False: You should investigate the leak source personally before alerting anyone.',opts:['True','False'],a:1},
+      {q:'What is the correct first response to a detected gas leak?',opts:['Ignore minor smell','Identify and raise the alarm','Light a match to check','Keep working'],a:1},
+      {q:'Where should workers move to during a gas leak?',opts:['Toward the leak','Away, upwind, to assembly point','Nearest enclosed room','Basement'],a:1},
+      {q:'Who should operate the emergency shut-off valve?',opts:['Any nearby worker','Only trained/authorized personnel','No one, ever','New employees'],a:1}
+    ]
+  }
+};
+
+let currentModule='fire', currentQ=0, score=0, timerSec=0, timerHandle=null, answers=[];
+
+function startModule(m){currentModule=m;renderPPE();document.getElementById('ppeBtn').disabled=true;go('s-ppe');}
+
+function renderAR(){
+  const m=MODULES[currentModule];
+  const hs=document.getElementById('hotspots'); hs.innerHTML='';
+  let done=0;
+  m.spots.forEach((sp,i)=>{
+    const b=document.createElement('div');
+    b.className='hotspot'; b.style.left=sp.x; b.style.top=sp.y; b.textContent=sp.label;
+    b.onclick=()=>{ if(b.classList.contains('done'))return; b.classList.add('done'); document.getElementById('arInstr').textContent=sp.msg; updateArProgress(); };
+    hs.appendChild(b);
+  });
+  document.getElementById('arStepCount').textContent = '0 / '+m.spots.length+' found';
+  document.getElementById('arBar').style.width='0%';
+  timerSec=0; clearInterval(timerHandle);
+  timerHandle=setInterval(()=>{timerSec++;const mm=String(Math.floor(timerSec/60)).padStart(2,'0'),ss=String(timerSec%60).padStart(2,'0');document.getElementById('arTimer').textContent='⏱ '+mm+':'+ss;},1000);
+}
+function updateArProgress(){
+  const m=MODULES[currentModule];
+  const found=document.querySelectorAll('#hotspots .hotspot.done').length;
+  document.getElementById('arStepCount').textContent = found+' / '+m.spots.length+' found';
+  document.getElementById('arBar').style.width=(found/m.spots.length*100)+'%';
+  if(found===m.spots.length){ clearInterval(timerHandle); setTimeout(()=>{ document.getElementById('arInstr').textContent='Simulation Complete ✓ Launching assessment...'; setTimeout(startAssessment,900); },500); }
+}
+document.getElementById('s-ar').addEventListener('transitionend',()=>{});
+const arObserver=new MutationObserver(()=>{ if(document.getElementById('s-ar').classList.contains('active')) renderAR(); });
+arObserver.observe(document.getElementById('s-ar'),{attributes:true,attributeFilter:['class']});
+
+function startAssessment(){ currentQ=0; score=0; answers=[]; go('s-assess'); renderQ(); }
+function renderQ(){
+  const qs=MODULES[currentModule].questions; const item=qs[currentQ];
+  document.getElementById('qProg').textContent=`Question ${currentQ+1} of ${qs.length}`;
+  document.getElementById('qBar').style.width=((currentQ+1)/qs.length*100)+'%';
+  document.getElementById('qText').textContent=item.q;
+  const opts=document.getElementById('qOpts'); opts.innerHTML='';
+  document.getElementById('qFeedback').textContent='';
+  document.getElementById('qNext').disabled=true;
+  item.opts.forEach((o,i)=>{
+    const d=document.createElement('div'); d.className='qropt'; d.textContent=o;
+    d.onclick=()=>{
+      if(d.dataset.locked)return;
+      [...opts.children].forEach(c=>c.dataset.locked='1');
+      const correct=i===item.a;
+      d.classList.add(correct?'right':'wrong');
+      if(!correct) opts.children[item.a].classList.add('right');
+      document.getElementById('qFeedback').style.color=correct?'var(--green)':'var(--red)';
+      document.getElementById('qFeedback').textContent=correct?'Correct!':'Incorrect.';
+      answers.push(correct); if(correct)score++;
+      document.getElementById('qNext').disabled=false;
+    };
+    opts.appendChild(d);
+  });
+}
+function nextQ(){
+  const qs=MODULES[currentModule].questions;
+  currentQ++;
+  if(currentQ<qs.length) renderQ(); else showResult();
+}
+function showResult(){
+  const qs=MODULES[currentModule].questions;
+  const pct=Math.round(score/qs.length*100);
+  const pass=pct>=70;
+  document.getElementById('resIcon').textContent=pass?'🏅':'⚠️';
+  document.getElementById('resTitle').textContent=pass?'Training Passed':'Training Not Passed';
+  document.getElementById('resScore').textContent=pct+'%';
+  document.getElementById('resDetail').textContent=`Correct: ${score}/${qs.length} · Incorrect: ${qs.length-score}/${qs.length}`;
+  document.getElementById('resCertBtn').style.display=pass?'block':'none';
+  document.getElementById('resRetryBtn').style.display=pass?'none':'block';
+  if(pass){
+    const id='SAR-2026-'+String(Math.floor(10000+Math.random()*89999));
+    S.certs.unshift({id,worker:WORKER.name,empId:WORKER.id,site:WORKER.site,module:MODULES[currentModule].name,score:pct,completed:'28 Sep 2026',expiry:'28 Sep 2027',status:'VALID',org:WORKER.org});
+    S.audit.unshift(`28 Sep 2026 — Rahul Kumar completed ${MODULES[currentModule].name}`);
+    S.audit.unshift(`28 Sep 2026 — Certificate ${id} issued`);
+    S.progress[currentModule]=100;
+    save(); renderCerts(); renderProgress(); renderAI();
+  }
+  go('s-result');
+}
+function retryAssessment(){ startAssessment(); }
+function reviewAnswers(){
+  const qs=MODULES[currentModule].questions;
+  alert(qs.map((q,i)=>`${i+1}. ${q.q}\n${answers[i]?'✓ Correct':'✗ Incorrect'} — Answer: ${q.opts[q.a]}`).join('\n\n'));
+}
+
+// ---------- certificates ----------
+function drawQR(canvas,seed){
+  const ctx=canvas.getContext('2d'); const n=14, s=canvas.width/n;
+  let x=0; for(let i=0;i<seed.length;i++)x=(x*31+seed.charCodeAt(i))>>>0;
+  function rnd(){x=(x*1103515245+12345)>>>0;return (x>>>16)%2;}
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.fillStyle='#12201F';
+  for(let r=0;r<n;r++)for(let c=0;c<n;c++){ if((r<4&&c<4)||(r<4&&c>n-5)||(r>n-5&&c<4)){ if(r%3&&c%3) ctx.fillRect(c*s,r*s,s,s);} else if(rnd()) ctx.fillRect(c*s,r*s,s,s); }
+}
+function renderCerts(){
+  const el=document.getElementById('certList'); el.innerHTML='';
+  S.certs.forEach(c=>{
+    const wrap=document.createElement('div');
+    wrap.className='cert';
+    wrap.innerHTML=`<div style="font-weight:800;color:var(--teal-700);letter-spacing:.5px;">🛡️ VISHWAS AR</div>
+      <p style="margin:2px 0 10px;">CERTIFICATE OF SAFETY TRAINING</p>
+      <div>This certifies that</div><h3>${c.worker}</h3>
+      <p style="margin:-6px 0 6px;font-size:11px;">Employee ID: ${c.empId||WORKER.id} · ${c.site||WORKER.site}</p>
+      <div>has successfully completed</div><h3 style="color:var(--orange);">${c.module}</h3>
+      <div class="grid2" style="text-align:left;margin-top:10px;">
+        <div><label style="margin:0;">Score</label><b>${c.score}%</b></div>
+        <div><label style="margin:0;">Completed</label><b>${c.completed}</b></div>
+        <div><label style="margin:0;">Certificate ID</label><b>${c.id}</b></div>
+        <div><label style="margin:0;">Valid Until</label><b>${c.expiry}</b></div>
+      </div>
+      <canvas class="qr" width="110" height="110"></canvas>
+      <p style="margin:0;font-size:11px;color:var(--green);">✓ DIGITALLY VERIFIED</p>
+      <p style="margin:0;font-size:11px;">Issued by ${c.org} · Digital signature on file</p>
+      <div class="row" style="margin-top:10px;">
+        <button class="btn btn-sm btn-ghost" onclick="alert('Certificate downloaded (demo).')">Download</button>
+        <button class="btn btn-sm btn-ghost" onclick="alert('Share sheet opened (demo).')">Share</button>
+      </div>`;
+    el.appendChild(wrap);
+    drawQR(wrap.querySelector('canvas'), c.id);
+  });
+  document.getElementById('certCount').textContent=S.certs.filter(c=>c.status==='VALID').length;
+}
+
+// ---------- progress ----------
+function renderProgress(){
+  const map=[['fire','🔥 Fire Emergency Response'],['gas','☣ Gas Leak Response'],['confined','🚪 Confined Space (locked)'],['machinery','⚙️ Machinery Safety (locked)']];
+  const el=document.getElementById('progList'); el.innerHTML='';
+  map.forEach(([k,label])=>{
+    const pct=S.progress[k];
+    const status = pct===100?'✓ Completed':pct>0?'In Progress':(k==='confined'||k==='machinery')?'Locked':'Not Started';
+    const d=document.createElement('div'); d.className='card';
+    d.innerHTML=`<b>${label}</b><div class="bar" style="margin:8px 0;"><div style="width:${pct}%;background:${pct===100?'var(--green)':'var(--teal-700)'}"></div></div><span style="font-size:12.5px;color:var(--sub);">${status}</span>`;
+    el.appendChild(d);
+  });
+}
+
+// ---------- AI insight & recommendation (derived from real progress/cert data) ----------
+function renderAI(){
+  const vals=Object.values(S.progress);
+  const readiness=Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+  const incomplete=Object.entries(S.progress).filter(([k,v])=>v<100 && (k==='fire'||k==='gas'));
+  document.getElementById('aiInsight').innerHTML = `
+    <div class="card" style="border-color:var(--teal-500);margin-bottom:10px;">
+      <b style="color:var(--teal-700);">✨ AI SAFETY INSIGHT</b>
+      <h2 style="margin:6px 0 2px;">${readiness} / 100</h2>
+      <p style="margin:0;">Safety Readiness Score · ${incomplete.length} assigned module${incomplete.length===1?'':'s'} remain incomplete.</p>
+    </div>`;
+  const rec = incomplete[0];
+  document.getElementById('aiRecommend').innerHTML = rec ? `
+    <div class="card" style="background:var(--cyan-100);border-color:var(--teal-500);margin-bottom:10px;">
+      <b style="color:var(--teal-700);">✨ AI SAFETY RECOMMENDATION</b>
+      <p style="margin:6px 0 10px;">Your ${MODULES[rec[0]].name} training is incomplete (${rec[1]}%). Complete this module before your certificate deadline.</p>
+      <button class="btn btn-primary btn-sm" onclick="startModule('${rec[0]}')">Continue Training</button>
+    </div>` : `
+    <div class="card" style="background:var(--green-100);border-color:var(--green);margin-bottom:10px;">
+      <b style="color:var(--green);">✨ AI SAFETY INSIGHT</b><p style="margin:6px 0 0;">No pending training. You're up to date.</p></div>`;
+}
+
+// ---------- SOS system ----------
+const SOS_TYPES=['Fire','Gas Leak','Electrical','Medical','Machinery Accident','Security','Other'];
+function renderSOS(mode,data){
+  const el=document.getElementById('sosPanel');
+  if(mode==='confirm'){
+    el.innerHTML=`<div class="card sos-active">
+      <b>Send Emergency Alert?</b>
+      <p style="margin:8px 0;">Your emergency alert will be sent to the company Safety Department along with your current location.</p>
+      <label>Emergency Type</label>
+      <select id="sosType">${SOS_TYPES.map(t=>`<option>${t}</option>`).join('')}</select>
+      <div class="row" style="margin-top:12px;">
+        <button class="btn btn-ghost" onclick="renderSOS('idle')">Cancel</button>
+        <button class="btn sos-btn" onclick="sendSOS()">Send SOS</button>
+      </div></div>`;
+    return;
+  }
+  if(mode==='idle'){
+    el.innerHTML=`<div class="card sos-btn center" style="cursor:pointer;" onclick="renderSOS('confirm')">
+      <b style="font-size:15px;">🚨 SEND SOS</b>
+      <p style="color:#fde;margin:4px 0 0;">Tap, choose emergency type, then confirm to alert the Safety Department.</p></div>`;
+    return;
+  }
+  if(mode==='active'){
+    const inc=data;
+    const steps=[['📍 Location captured',inc.step>=1],['📡 Alert sent to Safety Department',inc.step>=2],['🟢 Safety Department notified',inc.step>=3]];
+    el.innerHTML=`<div class="card sos-active">
+      <b style="color:var(--red);">🚨 SOS ACTIVE</b> · <span style="font-size:12px;">${inc.id}</span>
+      <p style="margin:6px 0;">${WORKER.name} (${WORKER.id}) · ${WORKER.site}<br><b>${inc.type.toUpperCase()} EMERGENCY</b></p>
+      ${steps.map(([l,ok])=>`<div style="font-size:13px;margin:3px 0;color:${ok?'var(--green)':'var(--sub)'};">${ok?'✓':'…'} ${l}</div>`).join('')}
+      ${inc.step>=3?`<p style="margin:10px 0 6px;font-size:12.5px;color:var(--red);">● LIVE LOCATION SHARING — will stop when the incident is resolved.</p>`:''}
+      <p style="margin:6px 0;font-size:12.5px;">Status: <b>${inc.status==='ACKNOWLEDGED'?'● Safety Department Acknowledged':'● Awaiting acknowledgement'}</b></p>
+      <div class="row" style="margin-top:10px;">
+        <button class="btn btn-ghost btn-sm" onclick="alert('Calling Safety Officer (demo).')">Call Safety Officer</button>
+        <button class="btn btn-outline btn-sm" onclick="refreshSOS('${inc.id}')">Refresh Status</button>
+      </div>
+      <button class="btn btn-sm" style="margin-top:8px;background:var(--red);color:#fff;" onclick="endEmergency('${inc.id}')">End Emergency</button>
+    </div>`;
+  }
+}
+function sendSOS(){
+  const type=document.getElementById('sosType').value;
+  const id='SOS-2026-'+String(Math.floor(10000+Math.random()*89999));
+  const inc={id,worker:WORKER.name,workerId:WORKER.id,type,status:'ACTIVE',step:0,time:'28 Sep 2026'};
+  S.sos.unshift(inc); save();
+  renderSOS('active',inc);
+  let s=0; const t=setInterval(()=>{ s++; inc.step=s;
+    if(s===1) S.audit.unshift(`28 Sep 2026 — SOS ${id} location captured`);
+    if(s===2) S.audit.unshift(`28 Sep 2026 — SOS ${id} alert sent to Safety Department`);
+    if(s===3){ S.audit.unshift(`28 Sep 2026 — SOS ${id} Safety Department notified`); clearInterval(t); }
+    save(); renderSOS('active',inc);
+  },900);
+}
+function refreshSOS(id){ const inc=S.sos.find(x=>x.id===id); if(inc) renderSOS('active',inc); }
+function endEmergency(id){
+  const inc=S.sos.find(x=>x.id===id);
+  if(inc){ inc.status='RESOLVED'; S.audit.unshift(`28 Sep 2026 — SOS ${id} resolved / location sharing stopped`); save(); }
+  renderSOS('idle');
+}
+function adminAcknowledgeSOS(id){
+  const inc=S.sos.find(x=>x.id===id);
+  if(inc){ inc.status='ACKNOWLEDGED'; S.audit.unshift(`28 Sep 2026 — SOS ${id} acknowledged by Safety Department`); save(); renderAdmin(); }
+}
+
+
+function selectAdminTab(id){
+  document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.tabpane').forEach(p=>p.style.display='none');
+  document.getElementById(id).style.display='block';
+  [...document.querySelectorAll('.tabs button')].find(b=>b.getAttribute('onclick').includes(id)).classList.add('active');
+}
+function renderAdmin(){
+  const tb=document.getElementById('certAdminTable'); tb.innerHTML='';
+  S.certs.forEach(c=>{
+    const badge = c.status==='VALID'?'<span class="tag tag-green">VALID</span>':c.status==='EXPIRED'?'<span class="tag tag-red">EXPIRED</span>':'<span class="tag tag-amber">EXPIRING SOON</span>';
+    tb.innerHTML+=`<tr><td>${c.id}</td><td>${c.worker}</td><td>${c.module}</td><td>${c.score}%</td><td>${c.expiry}</td><td>${badge}</td></tr>`;
+  });
+  const al=document.getElementById('auditList'); al.innerHTML='';
+  S.audit.forEach(a=>{ const d=document.createElement('div'); d.className='card'; d.style.padding='10px 12px'; d.textContent=a; al.appendChild(d); });
+  const sl=document.getElementById('sosAdminList'); sl.innerHTML='';
+  document.getElementById('kpiSos').querySelector('.num').textContent = S.sos.filter(x=>x.status==='ACTIVE').length;
+  if(!S.sos.length){ sl.innerHTML='<div class="card">No SOS alerts. Emergency system is clear.</div>'; }
+  S.sos.forEach(inc=>{
+    const badge = inc.status==='ACTIVE'?'<span class="tag tag-red">ACTIVE</span>':inc.status==='ACKNOWLEDGED'?'<span class="tag tag-amber">ACKNOWLEDGED</span>':'<span class="tag tag-green">RESOLVED</span>';
+    const d=document.createElement('div'); d.className='card'; d.style.borderColor= inc.status==='ACTIVE'?'var(--red)':'var(--line)';
+    d.innerHTML=`<div class="row" style="justify-content:space-between;"><b>${inc.id}</b>${badge}</div>
+      <p style="margin:6px 0;">Worker: <b>${inc.worker}</b> (${inc.workerId}) · Emergency: <b>${inc.type}</b> · ${inc.time}</p>
+      ${inc.status==='ACTIVE'?`<button class="btn btn-sm btn-primary" onclick="adminAcknowledgeSOS('${inc.id}')">Acknowledge</button>`:''}`;
+    sl.appendChild(d);
+  });
+}
+function verifyCert(idArg){
+  const id = idArg || document.getElementById('verifyInput').value.trim();
+  const box=document.getElementById('verifyResult');
+  const c=S.certs.find(x=>x.id.toLowerCase()===id.toLowerCase());
+  if(!c){ box.innerHTML=`<div class="card" style="border-color:var(--red);background:var(--red-100);"><b style="color:var(--red);">✕ INVALID — Certificate Not Found</b><p style="margin-top:6px;">No record matches ID "${id}".</p></div>`; return; }
+  const expired = c.status==='EXPIRED';
+  box.innerHTML = expired
+    ? `<div class="card" style="border-color:var(--amber);background:var(--amber-100);"><b style="color:var(--amber);">⚠ EXPIRED — Certificate Expired</b>
+       <p style="margin-top:6px;">Worker: <b>${c.worker}</b> · Training: ${c.module} · Score: ${c.score}% · Expired: ${c.expiry}</p></div>`
+    : `<div class="card" style="border-color:var(--green);background:var(--green-100);">
+       <div class="row" style="align-items:center;gap:10px;"><span class="vring" style="background:var(--green-100);">✓</span><div><b style="color:var(--teal-900);">🛡️ VISHWAS AR</b><br><b style="color:var(--green);">◉ CERTIFICATE VERIFIED</b></div></div>
+       <div style="font-size:12.5px;margin:8px 0;color:var(--green);">✓ Certificate Authentic&nbsp; ✓ Worker Identity Verified<br>✓ Training Completed&nbsp; ✓ Assessment Passed</div>
+       <p style="margin-top:4px;">Worker: <b>${c.worker}</b><br>Training: ${c.module}<br>Score: ${c.score}%<br>Completed: ${c.completed}<br>Status: <b>VALID</b><br>Expiry: ${c.expiry}<br>Certificate ID: ${c.id}<br>Organization: ${c.org}</p></div>`;
+  S.audit.unshift(`28 Sep 2026 — Employer verified certificate ${c.id}`); save();
+}
+function exportReport(){ alert('Compliance report exported as CSV (demo).'); }
+function openAssign(){ alert('Assigned "Fire Emergency Response" to Production Department — deadline 30 Oct 2026 (demo). Workers notified.'); }
+
+// ---------- init ----------
+renderPPE(); renderProgress(); renderCerts(); applyLang(); renderAI(); renderSOS('idle'); updateGreeting(); renderProfile();
+</script>
+</body>
+</html>

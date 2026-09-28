@@ -1,0 +1,94 @@
+# ==========================================================
+# VISHWAS AR — .gitignore
+# Covers: secrets/keys, env files, Firebase, Flutter/Dart,
+# Node/React (admin dashboard), build output, IDE & OS junk.
+# ==========================================================
+
+# ---- Secrets, keys, credentials, tokens (NEVER commit) ----
+*.env
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.cer
+*.crt
+*.pfx
+*secret*
+*Secret*
+*SECRET*
+*credential*
+*Credential*
+*token*
+*Token*
+*password*
+*.keystore
+*.jks
+*apikey*
+*api_key*
+
+# Firebase
+firebase-adminsdk-*.json
+serviceAccountKey.json
+google-services.json
+GoogleService-Info.plist
+.firebase/
+.firebaserc
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# ---- Flutter / Dart ----
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+build/
+android/key.properties
+android/local.properties
+android/app/upload-keystore.jks
+ios/Flutter/Generated.xcconfig
+ios/Flutter/flutter_export_environment.sh
+ios/Pods/
+ios/.symlinks/
+**/generated_plugin_registrant.dart
+
+# ---- Node / React (admin dashboard) ----
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+.pnp/
+.pnp.js
+dist/
+.next/
+.vercel/
+.turbo/
+
+# ---- Build / cache / local data ----
+*.class
+*.o
+*.so
+*.log
+*.cache
+.cache/
+coverage/
+*.tmp
+*.temp
+
+# ---- IDE / editor ----
+.vscode/
+.idea/
+*.iml
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# ---- Misc local overrides ----
+local.properties
+*.local
